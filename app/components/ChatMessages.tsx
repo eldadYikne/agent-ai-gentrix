@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { MessageItem } from "./VoiceRealtimeAgent";
+import { MessageItem } from "../types/realTimeAgent";
 
 interface Props {
   messages: MessageItem[];

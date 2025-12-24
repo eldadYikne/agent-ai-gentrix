@@ -7,6 +7,7 @@ import ChatMessages from "./ChatMessages";
 import VoiceVolumeMeter from "./VoiceVolumeMeter";
 import { getPdf } from "../agent/tools/pdf-tool";
 import { voldemortGuardrails } from "../agent/guardrails/voldemort";
+import { MessageItem } from "../types/realTimeAgent";
 
 export default function VoiceRealtimeAgent() {
   const [session, setSession] = useState<RealtimeSession | null>(null);
@@ -82,9 +83,9 @@ export default function VoiceRealtimeAgent() {
       sessionRef.current = realtimeSession;
       setSession(realtimeSession);
 
-      console.log("✅ Connected to Realtime Agent");
+      console.log("Connected to Realtime Agent");
     } catch (err) {
-      console.error("❌ Failed to connect", err);
+      console.error("Failed to connect", err);
     } finally {
       setConnecting(false);
     }
@@ -97,7 +98,7 @@ export default function VoiceRealtimeAgent() {
     sessionRef.current = null;
     setSession(null);
 
-    console.log("🛑 Session cleared");
+    console.log("Session cleared");
   };
   useEffect(() => {
     return () => {
@@ -166,14 +167,3 @@ export default function VoiceRealtimeAgent() {
     </div>
   );
 }
-export type MessageItem = {
-  itemId: string;
-  type: "message";
-  role: "user" | "assistant";
-  status: string;
-  content: {
-    type: "input_audio" | "output_audio";
-    transcript: string;
-    audio: string;
-  }[];
-};
