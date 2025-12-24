@@ -18,8 +18,8 @@ export const getPdf = tool({
       body: JSON.stringify({ query }),
       headers: { "Content-Type": "application/json" },
     });
-    const { text } = await res.json();
-    console.log('text.join("\n---\n")', text);
-    return text;
+    const { content } = await res.json();
+    console.log('text.join("\n---\n")', content[0].text);
+    return content[0].text;
   },
 });

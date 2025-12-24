@@ -20,7 +20,12 @@ export async function POST(req: Request) {
     }
 
     return NextResponse.json({
-      text: allParagraphs || "לא נמצא מידע רלוונטי.",
+      content: [
+        {
+          type: "text",
+          text: allParagraphs,
+        },
+      ],
     });
   } catch (err) {
     return NextResponse.json({ text: "שגיאה בניתוח הקבצים" }, { status: 500 });
