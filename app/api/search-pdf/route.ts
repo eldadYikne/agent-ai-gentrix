@@ -1,0 +1,28 @@
+import { NextResponse } from "next/server";
+import pdf from "pdf-parse";
+import fs from "fs";
+import path from "path";
+
+export async function POST(req: Request) {
+  try {
+    const { query } = await req.json();
+    const pdfFiles = ["Eldad.pdf", "African-lion.pdf"];
+    let allParagraphs: string[] = [];
+
+    for (const fileName of pdfFiles) {
+      const pdfPath = path.join(process.cwd(), "pdfs", fileName);
+      if (fs.existsSync(pdfPath)) {
+        const dataBuffer = fs.readFileSync(pdfPath);
+        const data = await pdf(dataBuffer);
+        const paragraphs = data.text.split(/\n\s*\n/);
+        allParagraphs = [...allParagraphs, ...paragraphs];
+      }
+    }
+
+    return NextResponse.json({
+      text: allParagraphs || "לא נמצא מידע רלוונטי.",
+    });
+  } catch (err) {
+    return NextResponse.json({ text: "שגיאה בניתוח הקבצים" }, { status: 500 });
+  }
+}
